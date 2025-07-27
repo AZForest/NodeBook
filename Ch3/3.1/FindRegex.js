@@ -14,13 +14,17 @@ export class FindRegex extends EventEmitter {
   }
 
   find() {
+    // setTimeout(() => {
+    //   this.emit("start", this.files);
+    // }, 0);
+    this.emit("start", this.files);
     for (const file of this.files) {
       readFile(file, "utf8", (err, content) => {
         if (err) {
-          return this.emit("error", err.message);
+          return this.emit("error", err);
         }
 
-        this.emit("error", file);
+        this.emit("fileread", file);
 
         const match = content.match(this.regex);
         if (match) {

@@ -9,6 +9,10 @@ const findRegexInstance = new FindRegex(/hello \w+/);
 findRegexInstance
   .addFile("textFile1.txt")
   .addFile("testJson.json")
+  .on("start", (files) => console.log(`List of files to be read: ${files}`))
   .find()
-  .on("found", (file, match) => console.log(`Matched ${match} in File ${file}`))
+  //.on("fileread", (file) => console.log(`Reading... ${file}`))
+  .on("found", (file, match) =>
+    console.log(`Matched "${match}" in File ${file}`)
+  )
   .on("error", (err) => console.error(`Error found: ${err}`));
