@@ -1,0 +1,17 @@
+{
+  "name": "wolf",
+  "version": "1.0.0",
+  "description": "nonexreading",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "mkdirp": "^0.5.5",
+    "slug": "^1.1.0",
+    "superagent": "^5.2.2"
+  },
+  "author": "azf",
+  "license": "ISC",
+  "type": "module"
+}
