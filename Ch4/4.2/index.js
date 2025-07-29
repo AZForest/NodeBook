@@ -1,7 +1,8 @@
 import { listNestedFiles } from "./fourtwo.js";
 
-listNestedFiles("", (file, dir) => {
-  console.log(file);
-  console.log(dir);
-  //console.log(path.basename);
+listNestedFiles("/Users/alexforest/Desktop/Coding/Tester", (files) => {
+  console.log("Total Number of files: " + files.length);
+  //   files.forEach((file) => {
+  //     console.log(file);
+  //   });
 });

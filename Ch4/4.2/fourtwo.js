@@ -15,32 +15,72 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export function listNestedFiles(dir, cb) {
-  let direct = "/Users/alexforest/Desktop/AWS_Solutions_Architect";
   let files = [];
-  dauphin(direct);
-  cb(__filename, __dirname);
+  bélier(dir, 0, 0, files, (files) => {
+    cb(files);
+  });
 }
 
-function dauphin(dir) {
+function bélier(dir, level, index, files, cb) {
   fs.readdir(dir, (err, children) => {
     if (err) {
-      console.log("Err: " + err);
+      return cb(err);
     } else {
-      children.forEach((val, index) => {
-        //console.log(val);
+      if (index === children.length) {
+        return cb(files);
+      }
 
-        const entryPath = path.join(dir, val);
-        console.log(entryPath);
-        fs.stat(entryPath, (err, stats) => {
-          if (stats.isFile()) {
-            console.log(val);
-          } else if (stats.isDirectory()) {
-            dauphin(entryPath);
-          } else {
-            console.log("Neither");
-          }
-        });
+      const entryPath = path.join(dir, children[index]);
+      fs.stat(entryPath, (err, stats) => {
+        let x = 0;
+        let delimiter = "";
+        while (x < level) {
+          delimiter += "\t";
+          x++;
+        }
+        console.log(delimiter + children[index]);
+        if (stats.isFile()) {
+          files.push(children[index]);
+          bélier(dir, level, index + 1, files, cb);
+        } else if (stats.isDirectory()) {
+          bélier(entryPath, level + 1, 0, files, () => {
+            bélier(dir, level, index + 1, files, cb);
+          });
+        }
       });
     }
   });
 }
+
+//function dauphin(dir, level, files, cb) {
+//   fs.readdir(dir, (err, children) => {
+//     if (err) {
+//       console.log("Err: " + err);
+//     } else {
+//       children.forEach((val, index) => {
+//         //console.log(val);
+
+//         const entryPath = path.join(dir, val);
+
+//         //console.log(delimiter + entryPath);
+//         fs.stat(entryPath, (err, stats) => {
+//           let x = 0;
+//           let delimiter = "";
+//           while (x < level) {
+//             delimiter += "  ";
+//             x++;
+//           }
+//           console.log(delimiter + val);
+//           if (stats.isFile()) {
+//             files.push(val);
+//           } else if (stats.isDirectory()) {
+//             level++;
+//             dauphin(entryPath, level, files, cb);
+//           } else {
+//             console.log("Neither");
+//           }
+//         });
+//       });
+//     }
+//   });
+// }
