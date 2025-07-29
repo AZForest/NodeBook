@@ -1,0 +1,12 @@
+{
+  "name": "fourtwoex",
+  "version": "1.0.0",
+  "description": "four two exs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "azf",
+  "license": "ISC",
+  "type": "module"
+}
