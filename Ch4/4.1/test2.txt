@@ -1,0 +1,2 @@
+Bonus points if you manage to avoid callback hell. Feel free to create
+additional helper functions if needed.

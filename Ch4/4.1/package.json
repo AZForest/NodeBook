@@ -1,0 +1,12 @@
+{
+  "name": "fourone",
+  "version": "1.0.0",
+  "description": "fouroneex",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "azf",
+  "license": "ISC",
+  "type": "module"
+}

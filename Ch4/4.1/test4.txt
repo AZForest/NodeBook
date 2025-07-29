@@ -1,0 +1,8 @@
+This function must copy the contents of every source file into the destination
+Bonus points if you manage to avoid callback hell. Feel free to create
+additional helper functions if needed.
+Consider your career goals, current skill level, and areas of interest when selecting a certification path
+This function must copy the contents of every source file into the destination
+Bonus points if you manage to avoid callback hell. Feel free to create
+additional helper functions if needed.
+Consider your career goals, current skill level, and areas of interest when selecting a certification path

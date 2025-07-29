@@ -1,0 +1,1 @@
+This function must copy the contents of every source file into the destination
