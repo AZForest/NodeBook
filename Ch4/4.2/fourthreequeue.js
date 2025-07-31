@@ -3,15 +3,6 @@ import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 import { EventEmitter } from "events";
 
-// export function recursiveFind(dir, keyword, queue, cb) {
-//   let files = [];
-//   queue.pushTask((done) => {
-//     renard(dir, keyword, 0, files, queue, (files) => {
-//       cb(files);
-//     });
-//   });
-// }
-
 export function recursiveFind(dir, keyword, queue, finalCb) {
   let files = [];
 
@@ -20,40 +11,6 @@ export function recursiveFind(dir, keyword, queue, finalCb) {
   });
   queue.pushTask((done) => {
     renard(dir, keyword, files, queue, done);
-  });
-}
-
-function renard2(dir, keyword, files, queue, cb, rfcb) {
-  fs.readdir(dir, (err, children) => {
-    if (err) {
-      return cb(err);
-    }
-    if (children.length === 0) {
-      return;
-    }
-
-    children.forEach((child) => {
-      const entryPath = path.join(dir, child);
-      fs.stat(entryPath, (err, stats) => {
-        if (err) {
-          return cb(err);
-        }
-        if (stats.isFile()) {
-          searchFile(entryPath, keyword, (inFile) => {
-            if (inFile) {
-              files.push(entryPath);
-              console.log("getting here ", files.length);
-            }
-            return cb();
-          });
-        } else if (stats.isDirectory()) {
-          queue.pushTask(() => {
-            renard(entryPath, keyword, files, queue, cb);
-            return cb();
-          });
-        }
-      });
-    });
   });
 }
 
@@ -78,7 +35,6 @@ function renard(dir, keyword, files, queue, renDone) {
               searchFile(entryPath, keyword, (inFile) => {
                 if (inFile) {
                   files.push(entryPath);
-                  console.log("getting here ", files.length);
                 }
                 searchDone();
               });

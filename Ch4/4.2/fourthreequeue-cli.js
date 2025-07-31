@@ -7,8 +7,8 @@ queue.on("empty", (files) => console.log("We empty: "));
 // queue.on("removing", () => console.log("Removing task..."));
 
 recursiveFind(
-  "/Users/alexforest/Desktop/Coding/Tester",
-  "pomme",
+  "/Users/alexforest/Desktop/AWS_Solutions_Architect",
+  "alex",
   queue,
   (files) => {
     console.log(files);
