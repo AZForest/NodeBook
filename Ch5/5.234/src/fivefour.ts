@@ -18,30 +18,48 @@ function mapAsync(
 ) {
   let running: number = 0;
   let queue: Array<() => Promise<unknown> | unknown> = [];
+  let results: Array<unknown> = [];
 
-  iterable.forEach((val, i) => {
-    callback(val);
+  iterable.forEach((item) => {
+    runTask(item);
   });
 
   function next() {
     while (running < concurrency && queue.length > 0) {
+      running++;
       const item = queue.shift();
       if (item) {
-        item().finally(() => {
-          running--;
-          next();
-        });
+        item()
+          .then((res) => {
+            results.push(callback(res));
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+          .finally(() => {
+            running--;
+            if (queue.length === 0) {
+              return finalCallback(results);
+            }
+            next();
+          });
         running++;
       }
     }
   }
 
-  function runTask(task: () => Promise<unknown>) {
+  function runTask(val: unknown) {
     return new Promise((resolve, reject) => {
       queue.push(() => {
-        task().then(resolve, reject);
+        //task().then(resolve, reject);
+        Promise.resolve(val);
       });
       process.nextTick(next);
     });
   }
+
+  let finalCallback = (r: Array<unknown>) => {};
+  return new Promise((resolve) => {
+    finalCallback = resolve;
+  });
 }
