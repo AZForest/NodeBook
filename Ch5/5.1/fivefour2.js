@@ -23,26 +23,28 @@ function mapAsync(iterable, callback, concurrency) {
   let results = [];
   let queue = [];
   let running = 0;
-  iterable.forEach((item) => {
+  iterable.forEach((item, index) => {
     //runTask(() => Promise.resolve(item));
-    runTask(item);
+    runTask(item, index);
   });
 
   function next() {
     while (running < concurrency && queue.length > 0) {
       running++;
-      const item = queue.shift();
+      const [item, index] = queue.shift();
       item()
         .then((res) => {
           // console.log(results);
-          results.push(callback(res));
+          // results.push(callback(res));
+          return Promise.resolve(callback(res));
         })
+        .then((r) => (results[index] = r))
         .catch((err) => {
           console.error(err);
         })
         .finally(() => {
           running--;
-          if (queue.length === 0) {
+          if (queue.length === 0 && running === 0) {
             return finalCallback(results);
           }
           next();
@@ -50,12 +52,15 @@ function mapAsync(iterable, callback, concurrency) {
     }
   }
 
-  function runTask(val) {
+  function runTask(val, index) {
     return new Promise((resolve, reject) => {
-      queue.push(() => {
-        //return val().then(resolve, reject);
-        return Promise.resolve(val);
-      });
+      queue.push([
+        () => {
+          //return val().then(resolve, reject);
+          return Promise.resolve(val);
+        },
+        index,
+      ]);
       process.nextTick(next);
     });
   }
